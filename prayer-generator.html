@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Prayer Generator</title>
+
+        <style>
+            body {
+                font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                font-size: 28px;
+                color: black;
+                background-color: #eeeeee;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%,-50%);
+            }
+            button {
+                padding: 25px;
+                font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                background-color: rgb(110,155,248);
+                color: white;
+                font-size: 24px; 
+                border: none;
+                border-radius: 20px;
+                cursor: pointer;
+                display: block;
+                margin: 10px auto;
+                transition-duration: .15s;
+            }
+            button:hover {
+                background-color: rgb(24, 190, 121);
+            }
+            .main-content {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                flex-grow: 2;
+                flex-direction: column;
+                width: 500px;
+                padding: 50px;
+            }
+            p {
+                display: inline-block;
+                width: 125px;
+                margin: 10px;
+            }
+            .selections {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-around;
+                width: 100%;
+            }
+            
+            .result {
+                flex-grow: 3;
+                background-color: rgb(214, 214, 214);
+                padding: 10px;
+                text-align: center;
+                border-radius: 10px;
+            }
+            .selections button {
+                display: inline-block;
+                margin: 10px;
+                flex-grow: 1;
+                font-size: 16px;
+                font-weight: bold;
+                padding: 15px 0 15px 0;
+                color: rgb(110,155,248);
+                background-color: #eeeeee;
+                border: 3px solid rgb(110,155,248);
+            }
+            .selections button:hover {
+                border: 3px solid rgb(24, 190, 121);
+                background-color: rgb(24, 190, 121);
+                color: white;
+            }
+            button.toggle-selected {
+                border: 3px solid rgb(24, 190, 121);
+                color: rgb(24, 190, 121); 
+            }
+            .prayer {
+                font: inherit;
+                display: flex;
+                width: 100%;
+                flex-grow: 1;
+                margin: 10px 0 10px 0;
+            }
+            .result {
+                display: inline-block;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main-content">
+            <div class="prayer">
+                <p>Opening: </p>
+                <div class="opening result"></div>
+            </div>
+            <div class="prayer">
+                <p>Closing: </p>
+                <div class="closing result"></div>
+            </div>
+            <div class="selections">
+                <button id="1" class="toggle-selected">Bishopric</button>
+                <button id="2">Ward</button>
+                <button id="3">Coordinating</button>
+            </div>            
+            <button onclick="runPrayer()">Who's Gonna Say It?</button>
+
+            
+        </div>
+
+        <script>
+
+            let openingNum;
+            let closingNum;
+            let openingPerson;
+            let closingPerson;
+            let bishopric = ["Bishop Melling", "Brother Erickson", "Brother Lindsey", "Derek Johnson", 
+                            "David Higham", "Jordan Gruenewald", "James Lytle"]
+            let wardCouncil = ["Bishop Melling", "Brother Erickson", "Brother Lindsey", "Derek Johnson", 
+                            "David Higham", "Jordan Gruenewald", "James Lytle", "Michael Barker", "Quentin Cook", 
+                            "Sarah Herring", "Talee Robinson", "Clark Roubicek", "Ann Sherrill", "Joe Wirthlin", 
+                            "Nate Zuñiga"]
+            let coorCouncil = ["Bishop Melling", "Brother Erickson", "Brother Lindsey", "Derek Johnson", 
+                            "David Higham", "Jordan Gruenewald", "James Lytle", "Christian Affleck", 
+                            "Michael Barker", "Hailey Bell", "Quentin Cook", "Brady Davis", "Shannon Lambson", 
+                            "Alex McAlpin", "Sam McKinnon", "Kayden Robinson", "Ann Sherrill", "Jay Spendlove", 
+                            "Sierra Vance", "Grace Wilson", "Joe Wirthlin"]
+
+
+            document.getElementsByClassName("selections")[0].onclick = buttonPress;
+
+            function buttonPress(event) {
+                if (event.target.tagName == 'BUTTON') {
+                    document.querySelector(".toggle-selected").classList.remove("toggle-selected");
+                    event.target.classList.add("toggle-selected");
+                }
+            }
+            
+            function runPrayer() {
+                if (document.querySelector(".toggle-selected").innerHTML == "Bishopric") {
+                    decideWho(bishopric);
+                } else if (document.querySelector(".toggle-selected").innerHTML == "Ward") {
+                    decideWho(wardCouncil);
+                } else {
+                    decideWho(coorCouncil);
+                }
+            }
+
+            function decideWho(group) {
+                
+                // Decide who will say the opening and closing prayer;
+                do {
+                    openingNum = Math.floor(Math.random() * group.length);
+                    closingNum = Math.floor(Math.random() * group.length);
+                } while (openingNum == closingNum);
+
+                document.getElementsByClassName("opening")[0].innerHTML = group[openingNum];
+                document.getElementsByClassName("closing")[0].innerHTML = group[closingNum];
+            }
+
+        </script>
+    </body>
+</html>
